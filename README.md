@@ -1,0 +1,2 @@
+# autorawptheme
+Wordpress theme "Autora"
