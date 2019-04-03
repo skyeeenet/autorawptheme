@@ -1,14 +1,5 @@
 <?php
-/**
- * The header for our theme
- *
- * This is the template that displays all of the <head> section and everything up until <div id="content">
- *
- * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
- *
- * @package SkyeTheme
- */
-
+	$custom_logo__url = wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ), 'full' )[0];
 ?>
 <!doctype html>
 <html <?php language_attributes(); ?>>
@@ -20,39 +11,77 @@
 	<?php wp_head(); ?>
 </head>
 
-<body <?php body_class(); ?>>
-<div id="page" class="site">
-	<a class="skip-link screen-reader-text" href="#content"><?php esc_html_e( 'Skip to content', 'skyetheme' ); ?></a>
+<body <?php body_class('header-fixed page no-sidebar header-style-2 topbar-style-2 menu-has-search'); ?>>
 
-	<header id="masthead" class="site-header">
-		<div class="site-branding">
-			<?php
-			the_custom_logo();
-			if ( is_front_page() && is_home() ) :
-				?>
-				<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
-				<?php
-			else :
-				?>
-				<p class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></p>
-				<?php
-			endif;
-			$skyetheme_description = get_bloginfo( 'description', 'display' );
-			if ( $skyetheme_description || is_customize_preview() ) :
-				?>
-				<p class="site-description"><?php echo $skyetheme_description; /* WPCS: xss ok. */ ?></p>
-			<?php endif; ?>
-		</div><!-- .site-branding -->
+<div id="wrapper" class="animsition">
+    <div id="page" class="clearfix">
+        <!-- Header Wrap -->
+        <div id="site-header-wrap">
+            <!-- Top Bar -->        
+            <div id="top-bar">
+                <div id="top-bar-inner" class="container">
+                    <div class="top-bar-inner-wrap">
+                        <div class="top-bar-content">
+                            <div class="inner">
+                                <span class="address content">4946 Marmora Road, Central New</span>
+                                <span class="phone content">+61 3 8376 6284</span>
+                                <span class="time content">Mon-Sat: 8am - 6pm</span>
+                            </div>                            
+                        </div><!-- /.top-bar-content -->
 
-		<nav id="site-navigation" class="main-navigation">
-			<button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false"><?php esc_html_e( 'Primary Menu', 'skyetheme' ); ?></button>
-			<?php
-			wp_nav_menu( array(
-				'theme_location' => 'menu-1',
-				'menu_id'        => 'primary-menu',
-			) );
-			?>
-		</nav><!-- #site-navigation -->
-	</header><!-- #masthead -->
+                        <div class="top-bar-socials">
+                            <div class="inner">
+                                <span class="text">Follow us:</span>
+                                <span class="icons">
+                                    <a href="#"><i class="fa fa-facebook"></i></a>
+                                    <a href="#"><i class="fa fa-twitter"></i></a>
+                                    <a href="#"><i class="fa fa-pinterest-p"></i></a>
+                                    <a href="#"><i class="fa fa-rss"></i></a>
+                                </span>
+                            </div>
+                        </div><!-- /.top-bar-socials -->
+                    </div>                    
+                </div>
+            </div><!-- /#top-bar -->
 
-	<div id="content" class="site-content">
+            <!-- Header -->
+            <header id="site-header">
+                <div id="site-header-inner" class="container">                    
+                    <div class="wrap-inner clearfix">
+                        <div id="site-logo" class="clearfix">
+                            <div id="site-log-inner">
+                                <a href="home.html" rel="home" class="main-logo">
+                                    <img src="<?php echo $custom_logo__url; ?>" alt="Autora" width="186" height="39" data-retina="assets/img/logo-small@2x.png" data-width="186" data-height="39">
+                                </a>
+                            </div>
+                        </div><!-- /#site-logo -->
+
+                        <div class="mobile-button">
+                            <span></span>
+                        </div><!-- /.mobile-button -->
+
+						<nav id="main-nav" class="main-nav">
+							<?php wp_nav_menu([
+								'theme_location' => 'top',
+								'container' => null,
+								'items_wrap' => '<ul id="menu-primary-menu" class="menu">%3$s</ul>'
+								]); 
+							?>
+						</nav>
+
+                        <div id="header-search">
+                            <a href="#" class="header-search-icon">
+                                <span class="search-icon fa fa-search">
+                                </span>
+                            </a>
+
+                            <form role="search" method="get" class="header-search-form" action="#">
+                                <label class="screen-reader-text">Search for:</label>
+                                <input type="text" value="" name="s" class="header-search-field" placeholder="Search...">
+                                <button type="submit" class="header-search-submit" title="Search">Search</button>
+                            </form>
+                        </div><!-- /#header-search -->
+                    </div><!-- /.wrap-inner -->                    
+                </div><!-- /#site-header-inner -->
+            </header><!-- /#site-header -->
+        </div><!-- #site-header-wrap -->
