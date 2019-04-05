@@ -208,6 +208,5 @@
 
 <a id="scroll-top"></a>
 <?php wp_footer(); ?>
-
 </body>
 </html>
