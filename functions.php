@@ -74,6 +74,53 @@ function autora_widgets_init() {
 }
 add_action( 'widgets_init', 'autora_widgets_init' );
 
+add_action('init', function() {
+
+	register_post_type('sliders', [
+
+		//передаем настройки
+		'labels' => [
+			'name' => 'Sliders',//отображается в админке. Основное название
+			'singular_name' => 'Slider',
+			'add_new' => 'Add new',
+			'add_new_item' => 'Add slider',
+			'edit_item' => 'Edit slider',
+			'new_item' => 'New Slider',
+			'view_item' => 'View slider',
+			'search_items' => 'Search slider',
+			'not_found' => 'Not found',
+			'not_found_in_trash' => 'Not found in trash',
+			'parent_item_colon' => '',
+			'menu_name' => 'Sliders',
+		],
+		'description' => '',
+		'public' => true,
+		'menu_position' => 25,
+		'menu_icon' => 'dashicons-format-quote',
+		'hierarchical' => false,
+		'supports' => array('title', 'editor', 'thumbnail'),
+		'taxonomies' => array(),
+		'has_archive' => true //должены ли эти записи быть доступными на отдельной странице /flats
+	]); 
+
+	register_taxonomy('slider_types', array('sliders'), array(
+		'labels' => array(
+			'name' => 'Slider Types',
+			'sungular_name' => 'Slider Type',
+			'search_items' => 'Search Sldier Type',
+			'all_items' => 'All Sliders Type',
+			'view_item' => 'View Slider Type',
+			'edit_item' => 'Edit Slider Type',
+			'update_item' => 'Update Slider Type',
+			'add_new_item' => 'Add New Slider Type',
+			'new_item_name' => 'Add New',
+			'menu_name' => 'Slider Types',
+		),
+		'description' => '',
+		'public' => true,
+		'hierarchical' => true,
+	));
+});
 
 function autora_scripts() {
 	wp_enqueue_style( 'autora-style', get_stylesheet_uri() );

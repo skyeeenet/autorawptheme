@@ -15,12 +15,23 @@
                                     <ul>
                                         <!-- Slide 1 -->
                                         <?php
-                                        global $post;
-                                        $args = array( 'category_name' => 'top_home_page_slide', 'numberposts' => 5, 'order' => 'DESC', 'post_type' => 'post' );
-                                        $posts = get_posts( $args );
-                                        foreach( $posts as $post ){ setup_postdata($post);
-                                            ?>
-                                                                                        <li data-transition="random">
+                                        $args = array(
+                                            'post_type' => 'sliders',
+                                            'posts_per_page' => 0,
+                                            'tax_query' => array(
+                                                array(
+                                                    'taxonomy' => 'slider_types',
+                                                    'field' => 'slug',
+                                                    'terms' => 'home_page_main_slider'
+                                                )
+                                            )
+                                        );
+
+                                        $loop = new WP_Query($args);
+
+                                        while ($loop->have_posts()) : $loop->the_post(); ?>
+                                        
+                                            <li data-transition="random">
                                             <!-- Main Image -->
                                             <img src="<?php the_post_thumbnail_url(); ?>" alt="" data-bgposition="center center" data-no-retina>
                                             <!-- Layers -->
@@ -82,10 +93,9 @@
                                                 <a href="<?php the_permalink(); ?>" class="themesflat-button bg-accent big"><span>GET IN TOUCH</span></a>
                                             </div>
                                         </li>
-                                            <?php
-                                        }
-                                        wp_reset_postdata();
-                                        ?>
+                                    <?php endwhile; ?>
+                                    <?php wp_reset_query(); ?>
+
                                         <!-- /End Slide 1 -->
                                     </ul>
                                 </div> 
@@ -99,7 +109,7 @@
                                         <div class="col-md-12">
                                             <div class="themesflat-spacer clearfix" data-desktop="60" data-mobile="60" data-smobile="60"></div>
                                             <div class="themesflat-headings style-1 text-center clearfix">
-                                                <h2 class="heading">YOUR BEST CHOOSE</h2>
+                                                <h2 class="heading"><?php the_field('home_page_first_title',$loop->ID); ?></h2>
                                                 <div class="sep has-icon width-125 clearfix">
                                                     <div class="sep-icon">
                                                         <span class="sep-icon-before sep-center sep-solid"></span>
@@ -107,7 +117,7 @@
                                                         <span class="sep-icon-after sep-center sep-solid"></span>
                                                     </div>
                                                 </div>
-                                                <p class="sub-heading">More than 500 projects completed in Autora - With over 25 years of combined experience, we have the knowledge to serve you.</p>
+                                                <p class="sub-heading"><?php the_field('home_page_first_subtitle');?></p>
                                             </div>
                                             <div class="themesflat-spacer clearfix" data-desktop="42" data-mobile="35" data-smobile="35"></div>
                                         </div><!-- /.col-md-12 -->
@@ -242,7 +252,7 @@
                                         <div class="col-md-12">
                                             <div class="themesflat-spacer clearfix" data-desktop="60" data-mobile="60" data-smobile="60"></div>
                                             <div class="themesflat-headings style-1 text-center clearfix">
-                                                <h2 class="heading">BEST SERVICES</h2>
+                                                <h2 class="heading"><?php the_field('home_page_second_title');?></h2>
                                                 <div class="sep has-icon width-125 clearfix">
                                                     <div class="sep-icon">
                                                         <span class="sep-icon-before sep-center sep-solid"></span>
@@ -250,112 +260,44 @@
                                                         <span class="sep-icon-after sep-center sep-solid"></span>
                                                     </div>
                                                 </div>
-                                                <p class="sub-heading">Construction Services offers a full range of construction services from initial design to project completion.</p>
+                                                <p class="sub-heading"><?php the_field('home_page_second_subtitle'); ?></p>
                                             </div>
                                             <div class="themesflat-spacer clearfix" data-desktop="39" data-mobile="35" data-smobile="35"></div>
                                             <div class="themesflat-carousel-box data-effect clearfix" data-gap="30" data-column="3" data-column2="2" data-column3="1" data-auto="false">
                                                 <div class="owl-carousel owl-theme">
-                                                    <div class="themesflat-image-box style-1 has-icon icon-right w65 clearfix">
-                                                        <div class="image-box-item">
-                                                            <div class="inner">
-                                                                <div class="thumb data-effect-item">
-                                                                    <img src="assets/img/imagebox/image-box-1-370x250.jpg" alt="Image">
-                                                                    <div class="overlay-effect bg-color-accent"></div>
-                                                                </div>
-                                                                <div class="text-wrap">
-                                                                    <h5 class="heading"><a href="#">DESIGN & BUILD</a></h5>
-                                                                    <span class="icon-wrap">
-                                                                        <i class="fa fa-angle-right"></i>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div><!-- /.themesflat-image-box -->
 
-                                                    <div class="themesflat-image-box style-1 has-icon icon-right w65 clearfix">
-                                                        <div class="image-box-item">
-                                                            <div class="inner">
-                                                                <div class="thumb data-effect-item">
-                                                                    <img src="assets/img/imagebox/image-box-2-370x250.jpg" alt="Image">
-                                                                    <div class="overlay-effect bg-color-accent"></div>
-                                                                </div>
-                                                                <div class="text-wrap">
-                                                                    <h5 class="heading"><a href="#">BUILDING ENVELOPES</a></h5>
-                                                                    <span class="icon-wrap">
-                                                                        <i class="fa fa-angle-right"></i>
-                                                                    </span>
+                                                    <?php
+                                                    $args = array(
+                                                        'post_type' => 'sliders',
+                                                        'posts_per_page' => 0,
+                                                        'tax_query' => array(
+                                                            array(
+                                                                'taxonomy' => 'slider_types',
+                                                                'field' => 'slug',
+                                                                'terms' => 'home_page_services_slider'
+                                                            )
+                                                        )
+                                                    );
+                                                    $loop = new WP_Query($args);
+                                                    while ($loop->have_posts()) : $loop->the_post(); ?>
+                                                        <div class="themesflat-image-box style-1 has-icon icon-right w65 clearfix">
+                                                            <div class="image-box-item">
+                                                                <div class="inner">
+                                                                    <div class="thumb data-effect-item">
+                                                                        <img src="<?php the_post_thumbnail_url(); ?>" alt="Image">
+                                                                        <div class="overlay-effect bg-color-accent"></div>
+                                                                    </div>
+                                                                    <div class="text-wrap">
+                                                                        <h5 class="heading"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>
+                                                                        <span class="icon-wrap">
+                                                                            <i class="fa fa-angle-right"></i>
+                                                                        </span>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </div><!-- /.themesflat-image-box -->
+                                                        </div><!-- /.themesflat-image-box -->
+                                                    <?php endwhile; wp_reset_query(); ?>
 
-                                                    <div class="themesflat-image-box style-1 has-icon icon-right w65 clearfix">
-                                                        <div class="image-box-item">
-                                                            <div class="inner">
-                                                                <div class="thumb data-effect-item">
-                                                                    <img src="assets/img/imagebox/image-box-3-370x250.jpg" alt="Image">
-                                                                    <div class="overlay-effect bg-color-accent"></div>
-                                                                </div>
-                                                                <div class="text-wrap">
-                                                                    <h5 class="heading"><a href="#">CONSTRUCTION</a></h5>
-                                                                    <span class="icon-wrap">
-                                                                        <i class="fa fa-angle-right"></i>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div><!-- /.themesflat-image-box -->
-
-                                                    <div class="themesflat-image-box style-1 has-icon icon-right w65 clearfix">
-                                                        <div class="image-box-item">
-                                                            <div class="inner">
-                                                                <div class="thumb data-effect-item">
-                                                                    <img src="assets/img/imagebox/image-box-1-370x250.jpg" alt="Image">
-                                                                    <div class="overlay-effect bg-color-accent"></div>
-                                                                </div>
-                                                                <div class="text-wrap">
-                                                                    <h5 class="heading"><a href="#">DESIGN & BUILD</a></h5>
-                                                                    <span class="icon-wrap">
-                                                                        <i class="fa fa-angle-right"></i>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div><!-- /.themesflat-image-box -->
-
-                                                    <div class="themesflat-image-box style-1 has-icon icon-right w65 clearfix">
-                                                        <div class="image-box-item">
-                                                            <div class="inner">
-                                                                <div class="thumb data-effect-item">
-                                                                    <img src="assets/img/imagebox/image-box-2-370x250.jpg" alt="Image">
-                                                                    <div class="overlay-effect bg-color-accent"></div>
-                                                                </div>
-                                                                <div class="text-wrap">
-                                                                    <h5 class="heading"><a href="#">BUILDING ENVELOPES</a></h5>
-                                                                    <span class="icon-wrap">
-                                                                        <i class="fa fa-angle-right"></i>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div><!-- /.themesflat-image-box -->
-
-                                                    <div class="themesflat-image-box style-1 has-icon icon-right w65 clearfix">
-                                                        <div class="image-box-item">
-                                                            <div class="inner">
-                                                                <div class="thumb data-effect-item">
-                                                                    <img src="assets/img/imagebox/image-box-3-370x250.jpg" alt="Image">
-                                                                    <div class="overlay-effect bg-color-accent"></div>
-                                                                </div>
-                                                                <div class="text-wrap">
-                                                                    <h5 class="heading"><a href="#">CONSTRUCTION MANAGEMENT</a></h5>
-                                                                    <span class="icon-wrap">
-                                                                        <i class="fa fa-angle-right"></i>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div><!-- /.themesflat-image-box -->
                                                 </div>
                                             </div><!-- /.themesflat-carousel-box -->
                                             <div class="themesflat-spacer clearfix" data-desktop="50" data-mobile="35" data-smobile="35"></div>
@@ -376,7 +318,7 @@
                                         <div class="col-md-12">
                                             <div class="themesflat-spacer clearfix" data-desktop="60" data-mobile="60" data-smobile="60"></div>
                                             <div class="themesflat-headings style-1 text-center clearfix">
-                                                <h2 class="heading text-white">FEATURED PROJECT</h2>
+                                                <h2 class="heading text-white"><?php the_field('home_page_third_title') ?></h2>
                                                 <div class="sep has-icon width-125 border-color-light clearfix">
                                                     <div class="sep-icon">
                                                         <span class="sep-icon-before sep-center sep-solid"></span>
@@ -388,13 +330,27 @@
                                             <div class="themesflat-spacer clearfix" data-desktop="30" data-mobile="35" data-smobile="35"></div>
                                             <div class="themesflat-carousel-box clearfix" data-gap="30" data-column="4" data-column2="2" data-column3="1" data-auto="false">
                                                 <div class="owl-carousel owl-theme">
+                                                <?php
+                                                    $args = array(
+                                                        'post_type' => 'sliders',
+                                                        'posts_per_page' => 0,
+                                                        'tax_query' => array(
+                                                            array(
+                                                                'taxonomy' => 'slider_types',
+                                                                'field' => 'slug',
+                                                                'terms' => 'home_page_featured_slider'
+                                                            )
+                                                        )
+                                                    );
+                                                    $loop = new WP_Query($args);
+                                                    while ($loop->have_posts()) : $loop->the_post(); ?>
                                                     <div class="themesflat-project style-1 data-effect  clearfix">
                                                         <div class="project-item">
                                                             <div class="inner">
                                                                 <div class="thumb data-effect-item has-effect-icon w40 offset-v-43 offset-h-46">
-                                                                    <img src="assets/img/project/project-1-440x280.jpg" alt="Image">
+                                                                    <img src="<?php the_post_thumbnail_url(); ?>" alt="Image">
                                                                     <div class="text-wrap text-center">                                          
-                                                                        <h5 class="heading"><a href="#">LAKE MEADOWS APARTMENTS</a></h5>
+                                                                        <h5 class="heading"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>
                                                                         <div class="elm-meta">
                                                                             <span><a href="#">Architecture</a></span>
                                                                             <span><a href="#">Building</a></span>
@@ -409,153 +365,7 @@
                                                             </div>
                                                         </div>
                                                     </div><!-- /.themesflat-project -->
-                                                    <div class="themesflat-project style-1 data-effect clearfix">
-                                                        <div class="project-item">
-                                                            <div class="inner">
-                                                                <div class="thumb data-effect-item has-effect-icon w40 offset-v-43 offset-h-46">
-                                                                    <img src="assets/img/project/project-2-440x280.jpg" alt="Image">  
-                                                                    <div class="text-wrap text-center">                             
-                                                                        <h5 class="heading"><a href="#">LAKE MEADOWS APARTMENTS</a></h5>
-                                                                        <div class="elm-meta">
-                                                                            <span><a href="#">Architecture</a></span>
-                                                                            <span><a href="#">Building</a></span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="elm-link">
-                                                                        <a href="#" class="icon-1 icon-search"></a>
-                                                                        <a href="#" class="icon-1"></a>
-                                                                    </div>
-                                                                    <div class="overlay-effect bg-color-3"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div><!-- /.themesflat-project -->
-                                                    <div class="themesflat-project style-1 data-effect clearfix">
-                                                        <div class="project-item">
-                                                            <div class="inner">
-                                                                <div class="thumb data-effect-item has-effect-icon w40 offset-v-43 offset-h-46">
-                                                                    <img src="assets/img/project/project-3-440x280.jpg" alt="Image">           
-                                                                    <div class="text-wrap text-center">
-                                                                        <h5 class="heading"><a href="#">LAKE MEADOWS APARTMENTS</a></h5>
-                                                                        <div class="elm-meta">
-                                                                            <span><a href="#">Architecture</a></span>
-                                                                            <span><a href="#">Building</a></span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="elm-link">
-                                                                        <a href="#" class="icon-1 icon-search"></a>
-                                                                        <a href="#" class="icon-1"></a>
-                                                                    </div>
-                                                                    <div class="overlay-effect bg-color-3"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div><!-- /.themesflat-project -->
-                                                    <div class="themesflat-project style-1 data-effect  clearfix">
-                                                        <div class="project-item">
-                                                            <div class="inner">
-                                                                <div class="thumb data-effect-item has-effect-icon w40 offset-v-43 offset-h-46">
-                                                                    <img src="assets/img/project/project-4-440x280.jpg" alt="Image">            
-                                                                    <div class="text-wrap text-center">
-                                                                        <h5 class="heading"><a href="#">LAKE MEADOWS APARTMENTS</a></h5>
-                                                                        <div class="elm-meta">
-                                                                            <span><a href="#">Architecture</a></span>
-                                                                            <span><a href="#">Building</a></span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="elm-link">
-                                                                        <a href="#" class="icon-1 icon-search"></a>
-                                                                        <a href="#" class="icon-1"></a>
-                                                                    </div>
-                                                                    <div class="overlay-effect bg-color-3"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div><!-- /.themesflat-project -->
-                                                    <div class="themesflat-project style-1 data-effect  clearfix">
-                                                        <div class="project-item">
-                                                            <div class="inner">
-                                                                <div class="thumb data-effect-item has-effect-icon w40 offset-v-43 offset-h-46">
-                                                                    <img src="assets/img/project/project-1-440x280.jpg" alt="Image">          
-                                                                    <div class="text-wrap text-center">                                          
-                                                                        <h5 class="heading"><a href="#">LAKE MEADOWS APARTMENTS</a></h5>
-                                                                        <div class="elm-meta">
-                                                                            <span><a href="#">Architecture</a></span>
-                                                                            <span><a href="#">Building</a></span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="elm-link">
-                                                                        <a href="#" class="icon-1 icon-search"></a>
-                                                                        <a href="#" class="icon-1"></a>
-                                                                    </div>
-                                                                    <div class="overlay-effect bg-color-3"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div><!-- /.themesflat-project -->
-                                                    <div class="themesflat-project style-1 data-effect  clearfix">
-                                                        <div class="project-item">
-                                                            <div class="inner">
-                                                                <div class="thumb data-effect-item has-effect-icon w40 offset-v-43 offset-h-46">
-                                                                    <img src="assets/img/project/project-2-440x280.jpg" alt="Image">  
-                                                                    <div class="text-wrap text-center">                               
-                                                                        <h5 class="heading"><a href="#">LAKE MEADOWS APARTMENTS</a></h5>
-                                                                        <div class="elm-meta">
-                                                                            <span><a href="#">Architecture</a></span>
-                                                                            <span><a href="#">Building</a></span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="elm-link">
-                                                                        <a href="#" class="icon-1 icon-search"></a>
-                                                                        <a href="#" class="icon-1"></a>
-                                                                    </div>
-                                                                    <div class="overlay-effect bg-color-3"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div><!-- /.themesflat-project -->
-                                                    <div class="themesflat-project style-1 data-effect  clearfix">
-                                                        <div class="project-item">
-                                                            <div class="inner">
-                                                                <div class="thumb data-effect-item has-effect-icon w40 offset-v-43 offset-h-46">
-                                                                    <img src="assets/img/project/project-3-440x280.jpg" alt="Image">
-                                                                    <div class="text-wrap text-center">
-                                                                        <h5 class="heading"><a href="#">LAKE MEADOWS APARTMENTS</a></h5>
-                                                                        <div class="elm-meta">
-                                                                            <span><a href="#">Architecture</a></span>
-                                                                            <span><a href="#">Building</a></span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="elm-link">
-                                                                        <a href="#" class="icon-1 icon-search"></a>
-                                                                        <a href="#" class="icon-1"></a>
-                                                                    </div>
-                                                                    <div class="overlay-effect bg-color-3"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div><!-- /.themesflat-project -->
-                                                    <div class="themesflat-project style-1 data-effect clearfix">
-                                                        <div class="project-item">
-                                                            <div class="inner">
-                                                                <div class="thumb data-effect-item has-effect-icon w40 offset-v-43 offset-h-46">
-                                                                    <img src="assets/img/project/project-4-440x280.jpg" alt="Image">
-                                                                    <div class="text-wrap text-center">
-                                                                        <h5 class="heading"><a href="#">LAKE MEADOWS APARTMENTS</a></h5>
-                                                                        <div class="elm-meta">
-                                                                            <span><a href="#">Architecture</a></span>
-                                                                            <span><a href="#">Building</a></span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="elm-link">
-                                                                        <a href="#" class="icon-1 icon-search"></a>
-                                                                        <a href="#" class="icon-1"></a>
-                                                                    </div>
-                                                                    <div class="overlay-effect bg-color-3"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div><!-- /.themesflat-project -->
+                                                    <?php endwhile; wp_reset_query(); ?>
                                                 </div>
                                             </div><!-- /.themesflat-carousel-box -->
                                             <div class="themesflat-spacer clearfix" data-desktop="41" data-mobile="35" data-smobile="35"></div>
@@ -678,6 +488,20 @@
                                             <div class="themesflat-spacer clearfix" data-desktop="80" data-mobile="60" data-smobile="60"></div>
                                             <div class="themesflat-carousel-box has-arrows arrow-center arrow-circle offset-v-24 clearfix" data-gap="30" data-column="1" data-column2="1" data-column3="1" data-auto="true">
                                                 <div class="owl-carousel owl-theme">
+                                                <?php
+                                                    $args = array(
+                                                        'post_type' => 'sliders',
+                                                        'posts_per_page' => 0,
+                                                        'tax_query' => array(
+                                                            array(
+                                                                'taxonomy' => 'slider_types',
+                                                                'field' => 'slug',
+                                                                'terms' => 'home_page_quotes_slider'
+                                                            )
+                                                        )
+                                                    );
+                                                    $loop = new WP_Query($args);
+                                                    while ($loop->have_posts()) : $loop->the_post(); ?>
                                                     <div class="themesflat-testimonials style-1 max-width-70 align-center has-width w100 circle border-solid clearfix">
                                                         <div class="testimonial-item">
                                                             <div class="inner">
@@ -685,41 +509,14 @@
                                                                    <i class="fa fa-quote-left"></i>
                                                                 </div>
                                                                 <blockquote class="text">
-                                                                    <p>“ I have worked with Autora Construction Services for over 10 years, they have consistently delivered fair pricing, quality workmanship and complete projects on schedule. I appreciate the level of customer service they deliver by going above and beyond expectations. ”</p>
+                                                                    <p>“ <?php the_content(); ?> ”</p>
                                                                     <div class="sep has-width w80 accent-bg clearfix"></div>
-                                                                    <h6 class="name">PAUL PIGNATARO</h6>
+                                                                    <h6 class="name"><?php the_title(); ?></h6>
                                                                 </blockquote>
                                                             </div>
                                                         </div>
                                                     </div><!-- /.themesflat-testimonials --> 
-                                                    <div class="themesflat-testimonials style-1 max-width-70 align-center has-width w100 circle border-solid clearfix">
-                                                        <div class="testimonial-item">
-                                                            <div class="inner">
-                                                                <div class="icon-wrap">
-                                                                   <i class="fa fa-quote-left"></i>
-                                                                </div>
-                                                                <blockquote class="text">
-                                                                    <p>“ I have worked with Autora Construction Services for over 10 years, they have consistently delivered fair pricing, quality workmanship and complete projects on schedule. I appreciate the level of customer service they deliver by going above and beyond expectations. ”</p>
-                                                                    <div class="sep has-width w80 accent-bg clearfix"></div>
-                                                                    <h6 class="name">PAUL PIGNATARO</h6>
-                                                                </blockquote>
-                                                            </div>
-                                                        </div>
-                                                    </div><!-- /.themesflat-testimonials --> 
-                                                    <div class="themesflat-testimonials style-1 max-width-70 align-center has-width w100 circle border-solid clearfix">
-                                                        <div class="testimonial-item">
-                                                            <div class="inner">
-                                                                <div class="icon-wrap">
-                                                                   <i class="fa fa-quote-left"></i>
-                                                                </div>
-                                                                <blockquote class="text">
-                                                                    <p>“ I have worked with Autora Construction Services for over 10 years, they have consistently delivered fair pricing, quality workmanship and complete projects on schedule. I appreciate the level of customer service they deliver by going above and beyond expectations. ”</p>
-                                                                    <div class="sep has-width w80 accent-bg clearfix"></div>
-                                                                    <h6 class="name">PAUL PIGNATARO</h6>
-                                                                </blockquote>
-                                                            </div>
-                                                        </div>
-                                                    </div><!-- /.themesflat-testimonials -->                                                    
+                                                    <?php endwhile; wp_reset_query(); ?>                                                
                                                 </div>
                                             </div><!-- /.themesflat-carousel-box -->
                                             <div class="themesflat-spacer clearfix" data-desktop="68" data-mobile="60" data-smobile="60"></div>
