@@ -1,20 +1,4 @@
 <?php
-/**
- * The template for displaying comments
- *
- * This is the template that displays the area of the page that contains both the current comments
- * and the comment form.
- *
- * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
- *
- * @package SkyeTheme
- */
-
-/*
- * If the current post is protected by a password and
- * the visitor has not yet entered the password we will
- * return early without loading the comments.
- */
 if ( post_password_required() ) {
 	return;
 }
@@ -69,7 +53,54 @@ if ( post_password_required() ) {
 
 	endif; // Check for have_comments().
 
-	comment_form();
+	$args = array(
+		'fields' => array(
+			'author' => '<fieldset class="name-wrap">
+			<input type="text" id="author" class="tb-my-input" name="author" tabindex="1" placeholder="Name*" value="" size="32" aria-required="true">
+		</fieldset>',
+			'email' => '<fieldset class="email-wrap">
+			<input type="email" id="email" class="tb-my-input" name="email" tabindex="2" placeholder="Email*" value="" size="32" aria-required="true">
+		</fieldset>',
+		),
+		'comment_field' => '<fieldset class="message-wrap">
+		<textarea id="comment-message" name="comment" rows="8" tabindex="4" placeholder="Message*" aria-required="true"></textarea>
+	</fieldset>'
+	 
+	);
+
+	add_filter('comment_form_fields', 'kama_reorder_comment_fields' );
+	function kama_reorder_comment_fields( $fields ){
+		// die(print_r( $fields )); // посмотрим какие поля есть
+	
+		$new_fields = array(); // сюда соберем поля в новом порядке
+	
+		$myorder = array('author','email', 'comment'); // нужный порядок
+	
+		foreach( $myorder as $key ){
+			$new_fields[ $key ] = $fields[ $key ];
+			unset( $fields[ $key ] );
+		}
+
+		if (!is_user_logged_in()) {
+
+			array_unshift($new_fields, '<div class="text-wrap clearfix">');
+
+			$last_item = array_pop($new_fields);
+	
+			$new_fields[] = '</div>';
+	
+			$new_fields[] = $last_item;
+		}
+
+		// если остались еще какие-то поля добавим их в конец
+		if( $fields )
+			foreach( $fields as $key => $val )
+				$new_fields[ $key ] = $val;
+	
+		return $new_fields;
+	}
+
+	comment_form($args);
 	?>
 
 </div><!-- #comments -->
